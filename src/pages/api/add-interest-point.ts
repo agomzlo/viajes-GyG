@@ -54,7 +54,6 @@ export const POST: APIRoute = async ({ request, redirect }) => {
 
     if (typeof point === 'string' && point.length > 0) {
         const isOptional = optional === 'true';
-        console.log(type, isOptional)
         await db.insert(Monuments).values({ name:point, type:type, optional:isOptional, image: response.secure_url, cityId: currentCity[0].id });
     }
 

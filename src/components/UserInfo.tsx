@@ -11,7 +11,6 @@ function UserInfo({country, city, monument, user}: {country: string, city: strin
         const mobileMenu = document.getElementById('mobileMenu') as HTMLElement;
         mobileMenu?.classList.toggle('hidden');
         const hamburgerIcon = document.getElementById('hamburgerIcon') as HTMLElement;
-        console.log(hamburgerIcon);
         hamburgerIcon?.classList.toggle('hidden');
         const closeIcon = document.getElementById('closeIcon') as HTMLElement;
         closeIcon?.classList.toggle('hidden');
