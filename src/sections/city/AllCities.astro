@@ -1,0 +1,35 @@
+---
+import { db, Cities } from 'astro:db';
+import CityCard from '@/components/CityCard.astro';
+import type { Country } from '@/lib/types';
+import { eq } from 'astro:db';
+
+interface Props {
+    country: Country;
+}
+
+const {country} = Astro.props;
+const {user} = Astro.locals;
+const cities = await db.select().from(Cities).where(eq(Cities.countryId, country.id)).orderBy(Cities.name);
+---
+<section class="w-full h-full flex flex-col items-center">
+    <h2 class="text-7xl font-bold my-6 text-white [text-shadow:1px_1px_0_black] uppercase text-center">{country.name}</h2>
+    <div class="flex flex-col md:grid md:grid-cols-2 items-center md:justify-items-center gap-4 p-4">
+        {
+            cities.map(city => (
+                <CityCard city={city} country={country}/>
+            ))
+        }
+    </div>
+    <a 
+        class:list={['text-sm md:text-xl font-bold px-3 py-1.5 mt-8 rounded-lg border transition-all cursor-pointer bg-white uppercase hover:text-white hover:scale-105 hover:shadow-lg',
+            {
+                'text-alejandro-primary border-alejandro-primary hover:bg-alejandro-primary': user.name === 'Alejandro',
+                'text-gema-primary border-gema-primary hover:bg-gema-primary': user.name === 'Gema'
+            }
+        ]}
+        href=`./${country.name}/add`
+    >
+        Agregar ciudad
+    </a>
+</section>

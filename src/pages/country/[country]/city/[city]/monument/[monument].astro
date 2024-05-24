@@ -1,0 +1,60 @@
+---
+import { db, Monuments, Cities, eq } from 'astro:db';
+import Layout from '@/layouts/Layout.astro';
+import LeftIcon from '@/icons/astro/LeftIcon.astro';
+import RightIcon from '@/icons/astro/RightIcon.astro';
+import Information from '@/sections/monument/Information.tsx';
+import MonumentStamps from '@/sections/monument/MonumentStamps';
+import { PostCard } from 'astro:db';
+
+const { country, city, monument } = Astro.params;
+const {user} = Astro.locals;
+
+const currentCity = await db.select().from(Cities).where(eq(Cities.name, city!));
+const monumentCity = currentCity[0];
+const monuments = await db.select().from(Monuments).where(eq(Monuments.cityId, monumentCity.id)).orderBy(Monuments.optional, Monuments.name);
+const totalMonuments = monuments.length;
+const currentMonument = monuments.filter((actualMonument) => actualMonument.name === monument)[0];
+
+const currentMonumentIndex = monuments.findIndex((actualMonument) => actualMonument.id === currentMonument.id);
+const prevMonumentIndex = currentMonumentIndex === 0 ? totalMonuments - 1 : currentMonumentIndex - 1;
+const prevMonumentName = monuments[prevMonumentIndex].name;
+const prevMonumentUrl = `/country/${encodeURI(country!)}/city/${encodeURI(monumentCity.name)}/monument/${encodeURI(prevMonumentName)}`;
+const nextMonumentIndex = currentMonumentIndex === totalMonuments - 1 ? 0 : currentMonumentIndex + 1;
+const nextMonumentName = monuments[nextMonumentIndex].name;
+const nextMonumentUrl = `/country/${encodeURI(country!)}/city/${encodeURI(monumentCity.name)}/monument/${encodeURI(nextMonumentName)}`;
+
+const postCards = await db.select().from(PostCard).where(eq(PostCard.monumentId, currentMonument.id));
+---
+<Layout title="Planificador De Viajes">
+	<main class="flex flex-col justify-center items-center min-h-screen p-4">
+        <section class="relative flex flex-col w-full h-full bg-white rounded-lg p-4 shadow-xl shadow-black/25 my-12">
+            <!-- TODO: Agregar opcion de poder cambiar el nombre del monumento -->
+            <h1 class="text-4xl md:text-6xl font-bold text-center">{currentMonument.name}</h1>
+            <div class="flex flex-col">
+                <Information currentMonument={currentMonument} user={user} client:load/>
+                <!-- TODO: Agregar mapa interactivo con la localizacion de cada monumento -->
+                <MonumentStamps country={country!} city={city!} currentMonument={currentMonument} user={user} postcards={postCards} client:load/>
+            </div>
+        </section>
+        {
+            totalMonuments > 1 && (
+            <div class="fixed left-2 md:left-4 h-screen flex flex-col justify-center">
+                <a href={prevMonumentUrl} class="text-gray-500/50 bg-white/50 rounded-full hover:text-gray-500 hover:bg-white hover:scale-105 transition-all">
+                    <LeftIcon class="h-8 md:h-10 w-8 md:w-10"/>
+                </a>
+            </div>
+            <div class="fixed right-2 md:right-4 h-screen flex flex-col justify-center">
+                <a href={nextMonumentUrl} class="text-gray-500/50 bg-white/50 rounded-full hover:text-gray-500 hover:bg-white hover:scale-105 transition-all">
+                    <RightIcon class="h-8 md:h-10 w-8 md:w-10"/>
+                </a>
+            </div>
+            )
+        }
+        <img 
+            class="fixed inset-0 w-full h-full object-cover object-center -z-[2] brightness-75" 
+            src={currentMonument.image} 
+            alt=""
+        >
+	</main>
+</Layout>

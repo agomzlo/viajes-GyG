@@ -1,0 +1,15 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import AllCities from '@/sections/city/AllCities.astro';
+import { db, Countries} from 'astro:db';
+
+const { country } = Astro.params;
+
+const countries = await db.select().from(Countries);
+const currentCountry = countries.filter((currentCountry) => currentCountry.name === country)[0];
+---
+<Layout title="Viajes G&G">
+	<main class="flex flex-col justify-center items-center my-24">
+		<AllCities country={currentCountry} />
+	</main>
+</Layout>

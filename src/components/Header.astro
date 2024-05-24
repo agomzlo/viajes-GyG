@@ -1,0 +1,43 @@
+---
+import UserInfo from './UserInfo.tsx'
+
+const {user} = Astro.locals;
+
+const { country, city, monument } = Astro.params;
+
+const hiddeUserInfo = Astro.url.pathname.includes('choose-user');
+
+// const city = Astro.url.searchParams.has('city') ? Astro.url.searchParams.get('city') as string : null;
+---
+<header class="sticky top-0 w-full flex justify-center p-4 md:p-6 bg-white z-[1] shadow-xl" transition:name="sticky header">
+    <div class="grid grid-cols-2 md:grid-cols-3 w-full items-center justify-center max-w-[1120px]">
+        <a href="/" class="w-fit text-2xl font-bold text-black text-start">Viajes G&G</a>
+        <span class="flex flex-row justify-end items-center md:col-span-2 gap-4">
+            <nav id="headerNav" class="flex flex-row gap-4">
+                <a 
+                    href="/" 
+                    class:list={['text-black cursor-pointer transition-all hover:scale-110 hidden',
+                        {
+                            'md:block': country
+                        }
+                    ]}
+                >Paises</a>
+                {
+                    country && city && (
+                        <a href=`/country/${country}` class="text-black cursor-pointer hidden md:block transition-all hover:scale-110">{country}</a>
+                    )
+                }
+                {
+                    city && monument && (
+                        <a href=`/country/${country}/city/${city}` class="text-black cursor-pointer hidden md:block transition-all hover:scale-110">{city}</a>
+                    )
+                }
+            </nav>
+            {
+                !hiddeUserInfo && (
+                    <UserInfo country={country!} city={city!} monument={monument!} user={user} client:load/>
+                )
+            }
+        </span>
+    </div>
+</header>

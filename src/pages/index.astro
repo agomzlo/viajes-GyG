@@ -1,0 +1,11 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import AllCountries from '@/sections/country/AllCountries.astro';
+import TitleHero from '@/sections/TitleHero';
+---
+<Layout title="Viajes G&G">
+	<main class="flex flex-col justify-center items-center">
+		<TitleHero client:load/>
+		<AllCountries />
+	</main>
+</Layout>

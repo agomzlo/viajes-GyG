@@ -1,0 +1,37 @@
+---
+import type { City, Country } from '@/lib/types';
+
+interface Props{
+    city: City;
+    country: Country
+}
+
+const { city, country } = Astro.props
+const {user} = Astro.locals;
+---
+<a 
+    class:list={['relative group flex flex-col justify-start w-full max-w-[570px] border bg-white p-2 rounded-md cursor-pointer hover:scale-105 hover:shadow-lg hover:shadow-black/25',
+        {
+            'border-alejandro-primary': user.name === 'Alejandro',
+            'border-gema-primary': user.name === 'Gema',
+        }
+    ]}
+    href=`/country/${country.name}/city/${city.name}`
+>
+    <picture class="relative w-auto h-auto">
+        <img 
+            class="w-full h-full aspect-video brightness-75 rounded-md" 
+            src={city.image} 
+            alt=`${city.name} image`
+            transition:name=`${city.name} image`
+        >
+        <h2 class="absolute inset-0 w-full h-full grid place-content-center text-5xl text-white [text-shadow:2px_2px_black] group-hover:scale-110">{ city.name }</h2>
+    </picture>
+    {
+        city.completed && (
+            <div class="absolute top-2 right-2 bg-green-500 text-white px-2 py-1 rounded-md uppercase">
+                Completado
+            </div>
+        )
+    }
+</a>

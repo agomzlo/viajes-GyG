@@ -1,0 +1,20 @@
+---
+import { db, User } from 'astro:db';
+
+import UserCard from '@/components/UserCard.tsx';
+import Layout from '@/layouts/Layout.astro';
+import ShowErrorToast from '@/components/ShowErrorToast';
+
+const users = await db.select().from(User);
+---
+
+<Layout title="Planificador De Viajes">
+	<main class="w-full min-h-screen flex flex-col md:grid md:grid-cols-2 items-center justify-center">
+		{
+			users.map(user => (
+				<UserCard user={user} client:load/>
+			))
+		}
+		<ShowErrorToast message={'Error al autenticar'} paramError={'verified'} client:only />
+	</main>
+</Layout>

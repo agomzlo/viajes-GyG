@@ -1,0 +1,72 @@
+---
+import PostageStamp from "../icons/astro/PostageStampIcon.astro";
+
+interface Props {
+    city: string;
+    monument: string;
+    message: string;
+    from: string;
+    to: string;
+    date: Date;
+    image: string;
+    postageStamp: string;
+}
+
+const { city, monument, message, from, to, date, image, postageStamp } = Astro.props;
+const monumentId = monument.split(' ').join('').toLowerCase();
+---
+<monument-postcard data-monument={monumentId} class="flex aspect-video w-screen sm:w-[639px] h-auto flex-col justify-center px-2 cursor-pointer">
+    <div id={`${monumentId}PostcardContainer`} class="h-full w-full [perspective:500px]">
+        <div id={`${monumentId}Postcard`} class="relative h-full w-full rounded-lg shadow-xl transition-all duration-200 [transform-style:preserve-3d]">
+            <section class="absolute inset-0 bg-stone-400 rounded-lg">
+                <img src={ image } alt="" class="w-full h-full rounded-lg object-cover opacity-75">
+                <div class="absolute inset-0 grid place-content-center border border-black m-5 uppercase">
+                    <span class="flex flex-col items-end">
+                        <p class="text-black text-6xl sm:text-8xl [text-shadow:1px_1px_white]">{ monument }</p>
+                        <p class="text-black text-3xl sm:text-5xl [text-shadow:1px_1px_white]">{ city }</p>
+                    </span>
+                </div>
+            </section>
+            <section class="absolute inset-0 grid grid-cols-2 bg-stone-200 [transform:rotateY(180deg)] [backface-visibility:hidden] rounded-lg">
+                <article class="grid place-content-center w-full text-[11px] md:text-base border-r-2 p-4 my-4 border-black/25">{ message }</article>
+                <article class="relative flex flex-col p-4 justify-center items-end gap-2 sm:gap-4">
+                    <picture class="absolute top-4 md:top-8 right-4 md:right-8 border-4 border-black">
+                        <img class="h-8 md:h-12 w-auto aspect-video outline-dotted outline-4 outline-offset-2 outline-stone-200" src={ postageStamp } alt="">
+                    </picture>
+                    <span class="w-full text-[11px] md:text-base border-b-2 border-black">De: { from }</span>
+                    <span class="w-full text-[11px] md:text-base border-b-2 border-black">Para: { to }</span>
+                    <span class="w-full text-[11px] md:text-base border-b-2 border-black capitalize">Fecha: {date?.toLocaleDateString('es-ES', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: '2-digit',
+                    })}</span>
+                </article>
+            </section>
+        </div>
+    </div>
+</monument-postcard>
+
+<script>
+    class MonumentPostcard extends HTMLElement {
+        constructor() {
+            super();
+
+            const monument = this.dataset.monument as string;
+            const postcardContainer = document.getElementById(`${monument}PostcardContainer`) as HTMLDivElement;
+            const postcard = document.getElementById(`${monument}Postcard`) as HTMLDivElement;
+            let flipped = false;
+
+            postcardContainer.addEventListener('click', () => {
+                if (flipped) {
+                    postcard.style.transform = 'rotateY(0deg)'
+                    flipped = false;
+                    return;
+                }
+                postcard.style.transform = 'rotateY(180deg)'
+                flipped = true;
+            })
+        }
+    }
+
+    customElements.define('monument-postcard', MonumentPostcard);
+</script>
