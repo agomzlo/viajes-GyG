@@ -3,7 +3,7 @@ import CityPostCard from '@/components/CityPostCard.astro';
 import Layout from '@/layouts/Layout.astro';
 import { db, eq, and, Countries, Cities, User, PostCard } from 'astro:db';
 
-const { country, city, monument, userFrom, userTo } = Astro.params;
+const { country, city, userFrom, userTo } = Astro.params;
 
 const currentCountry = await db.select().from(Countries).where(eq(Countries.name, country!));
 const currentCity = await db.select().from(Cities).where(and(eq(Cities.name, city!), eq(Cities.countryId, currentCountry[0].id)));

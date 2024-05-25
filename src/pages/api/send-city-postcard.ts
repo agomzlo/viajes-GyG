@@ -62,7 +62,7 @@ export const POST: APIRoute = async ({ request, redirect }) => {
     return redirect(`/country/${encodeURI(country)}/city/${encodeURI(city)}`);
 };
 
-export const GET: APIRoute = async ({ params, request }) => {
+export const GET: APIRoute = async () => {
     return new Response(
         JSON.stringify({
             message: "Add Interest Point OK",
