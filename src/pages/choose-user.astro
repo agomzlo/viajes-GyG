@@ -8,8 +8,8 @@ import ShowErrorToast from '@/components/ShowErrorToast';
 const users = await db.select().from(User);
 ---
 
-<Layout title="Planificador De Viajes">
-	<main class="w-full min-h-screen flex flex-col md:grid md:grid-cols-2 items-center justify-center">
+<Layout title="Elige tu usuario">
+	<main class="w-full h-full flex flex-col md:grid md:grid-cols-2 items-center justify-center">
 		{
 			users.map(user => (
 				<UserCard user={user} client:load/>

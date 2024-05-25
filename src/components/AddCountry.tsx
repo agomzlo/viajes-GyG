@@ -32,7 +32,7 @@ function AddCountry({user}:{user:User}){
     }
 
     return (
-        <div className="relative flex flex-col items-center justify-center bg-white shadow-lg rounded-lg px-4">
+        <section className="relative flex flex-col items-center justify-center bg-white shadow-lg rounded-lg px-4">
             <h2 className="text-4xl font-bold my-6 text-black uppercase text-center">Agregar Pais</h2>
             <form method="POST" action="/api/add-country" className="flex flex-col w-full gap-4 p-4">
                 <span className="flex flex-row justify-center items-center w-full gap-4">
@@ -68,7 +68,7 @@ function AddCountry({user}:{user:User}){
                 <Loading className={`w-24 h-24 ${user.name === 'Alejandro' ? 'text-alejandro-primary' : ''} ${user.name === 'Gema' ? 'text-gema-primary' : ''}`} />
             </div>
             <ShowErrorToast message="Error al agregar el pais" paramError="empty" />
-        </div>
+        </section>
     )
 }
 

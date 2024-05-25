@@ -26,7 +26,7 @@ const nextMonumentUrl = `/country/${encodeURI(country!)}/city/${encodeURI(monume
 
 const postCards = await db.select().from(PostCard).where(eq(PostCard.monumentId, currentMonument.id));
 ---
-<Layout title="Planificador De Viajes">
+<Layout title=`${monument}`>
 	<main class="flex flex-col justify-center items-center min-h-screen p-4">
         <section class="relative flex flex-col w-full h-full bg-white rounded-lg p-4 shadow-xl shadow-black/25 my-12">
             <!-- TODO: Agregar opcion de poder cambiar el nombre del monumento -->

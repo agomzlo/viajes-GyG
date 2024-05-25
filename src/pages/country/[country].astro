@@ -8,7 +8,7 @@ const { country } = Astro.params;
 const countries = await db.select().from(Countries);
 const currentCountry = countries.filter((currentCountry) => currentCountry.name === country)[0];
 ---
-<Layout title="Viajes G&G">
+<Layout title=`${country}`>
 	<main class="flex flex-col justify-center items-center my-24">
 		<AllCities country={currentCountry} />
 	</main>

@@ -13,7 +13,7 @@ const currentUserTo = await db.select().from(User).where(eq(User.id, Number(user
 
 const currentPostCard = await db.select().from(PostCard).where(and(eq(PostCard.monumentId, currentMonument[0].id), eq(PostCard.from, currentUserFrom[0].id), eq(PostCard.to, currentUserTo[0].id)));
 ---
-<Layout title="Viajes G&G">
+<Layout title=`Postal de ${monument}`>
 	<main class="flex flex-col justify-center items-center">
 		<MonumentPostCard
 			city={currentCity[0].name};

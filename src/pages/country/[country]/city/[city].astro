@@ -31,7 +31,7 @@ const monuments = await db.select().from(Monuments).where(eq(Monuments.cityId, c
 const postCards = await db.select().from(PostCard).where(eq(PostCard.cityId, currentCity.id));
 const currentPostCard = postCards.filter((postCard) => postCard.monumentId === null);
 ---
-<Layout title="Planificador De Viajes">
+<Layout title=`${city}`>
 	<main class="flex flex-col min-h-screen p-4">
         <div class="relative flex flex-col w-full h-full bg-white mt-[75vh] mb-[25vh] rounded-lg px-4 py-8 shadow-xl shadow-black/25">
             <!-- TODO: Agregar opcion de poder cambiar el nombre de la ciudad -->

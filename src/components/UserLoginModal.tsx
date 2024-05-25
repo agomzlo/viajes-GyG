@@ -28,8 +28,8 @@ function UserLoginModal({user, openModal, closeModal}: {user: User, openModal: b
                     <input type="hidden" name="id" value={user.id} />
                     <input type="hidden" name="name" value={user.name} />
                     <div className="flex flex-row justify-around font-bold">
-                        <button type="submit" className="px-3 py-1 rounded-lg border border-blue-500 text-blue-500 hover:text-white hover:bg-blue-500 hover:shadow-lg transition-all">Verificar</button>
                         <span onClick={closeModal} className="px-3 py-1 rounded-lg border border-red-500 text-red-500 cursor-pointer hover:text-white hover:bg-red-500 hover:shadow-lg transition-all">Cerrar</span>
+                        <button type="submit" className="px-3 py-1 rounded-lg border border-blue-500 text-blue-500 hover:text-white hover:bg-blue-500 hover:shadow-lg transition-all">Verificar</button>
                     </div>
                 </form>
             </div>
